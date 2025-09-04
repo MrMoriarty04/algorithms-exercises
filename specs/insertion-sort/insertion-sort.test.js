@@ -14,13 +14,48 @@
 */
 
 function insertionSort(nums) {
+  let size = nums.length;
+
+  for(let i=0;i<size-1;i++){
+    if(nums[i]<nums[i+1])
+      continue;
+    
+    let pointer=i+1;
+    while(pointer>0){
+
+      if(nums[pointer]<nums[pointer-1]){
+        let temp=nums[pointer-1];
+        nums[pointer-1]=nums[pointer];
+        nums[pointer]=temp;
+      }
+      else
+        break;
+
+      pointer--;
+    }
+  }
+
+  return nums;
+
   // code goes here
 }
 
 // unit tests
 // do not modify the below code
-test.skip("insertion sort", function () {
+test("insertion sort", function () {
   const nums = [10, 5, 3, 8, 2, 6, 4, 7, 9, 1];
+  insertionSort(nums);
+  expect(nums).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+});
+
+test("insertion sort-2", function () {
+  const nums = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+  insertionSort(nums);
+  expect(nums).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+});
+
+test("insertion sort-3", function () {
+  const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   insertionSort(nums);
   expect(nums).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 });

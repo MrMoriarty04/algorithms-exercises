@@ -11,10 +11,11 @@
 */
 
 function bubbleSort(nums) {
+   let size=nums.length;
     let swapped=true,swap;
     while(swapped){
       swap=false;
-      for(let i = 0 ; i<nums.length;i++){
+      for(let i = 0 ; i<size;i++){
         if(nums[i]>nums[i+1]){
           let temp = nums[i];
           nums[i]=nums[i+1];
@@ -22,6 +23,7 @@ function bubbleSort(nums) {
           swap = true;
         }
       }
+      size--;
         if(swap===false)
           swapped=false;        
       }
