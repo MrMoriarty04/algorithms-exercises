@@ -34,7 +34,7 @@ function sort(nums) {
 
 export default function SortComponent() {
   clear();
-  sort(shuffle(range(25)));
+  sort(shuffle(range(10)));
   done();
   return <App />;
 }
