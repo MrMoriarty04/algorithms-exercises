@@ -4,16 +4,39 @@
 // it's up to you what to return if the object isn't found (we're not testing that)
 
 function linearSearch(id, array) {
-  // code goes here
+  let answer;
+  array.forEach(element => {
+    if(element.id===id)
+        answer=element;
+  });
+    return answer;
 }
 
 function binarySearch(id, array) {
-  // code goes here
+  let ans;
+  let left=0,right=array.length-1;
+
+  while(left<=right){
+    let mid = Math.floor( (left+right) / 2);
+    
+    if( array[mid].id == id){
+      ans=array[mid];
+      break;
+    }
+    else if (array[mid].id < id) 
+      left = mid+1;
+    else{
+      right =mid-1;
+    }
+      
+  }
+
+  return ans;
 }
 
 // unit tests
 // do not modify the below code
-test.skip("linear search", function () {
+test("linear search", function () {
   const lookingFor = { id: 5, name: "Brian" };
   expect(
     linearSearch(5, [
@@ -35,23 +58,23 @@ test.skip("linear search", function () {
   ).toBe(lookingFor);
 });
 
-test.skip("binary search", function () {
+test("binary search", function () {
   const lookingFor = { id: 23, name: "Brian" };
   expect(
     binarySearch(23, [
-      { id: 1, name: "Sam" },
-      { id: 3, name: "Sarah" },
-      { id: 5, name: "John" },
-      { id: 6, name: "Burke" },
-      { id: 10, name: "Simona" },
-      { id: 12, name: "Asim" },
-      { id: 13, name: "Niki" },
-      { id: 15, name: "Aysegul" },
-      { id: 17, name: "Kyle" },
-      { id: 18, name: "Jem" },
-      { id: 19, name: "Marc" },
-      { id: 21, name: "Chris" },
-      lookingFor,
+      { id: 1, name: "Sam" }, //0
+      { id: 3, name: "Sarah" },//1
+      { id: 5, name: "John" },//2
+      { id: 6, name: "Burke" },//3
+      { id: 10, name: "Simona" },//4
+      { id: 12, name: "Asim" },//5
+      { id: 13, name: "Niki" },//6
+      { id: 15, name: "Aysegul" },//7
+      { id: 17, name: "Kyle" }, //8
+      { id: 18, name: "Jem" },//9
+      { id: 19, name: "Marc" },//10
+      { id: 21, name: "Chris" },//11
+      lookingFor, //12
       { id: 24, name: "Ben" }
     ])
   ).toBe(lookingFor);

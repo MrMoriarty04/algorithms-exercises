@@ -4,37 +4,56 @@ import { App, snapshot, done, clear } from "./sort-visualizer";
 
 import "./sort.css";
 
-function sort(nums) {
-   let size = nums.length;
 
-  for(let i=0;i<size-1;i++){
-    snapshot(nums);
-    if(nums[i]<nums[i+1])
-      continue;
-    
-    let pointer=i+1;
-    while(pointer>0){
+function getDigit(number,place,longestNumber){
+  const string = number.toString();
+  const size = string.length;
 
-      if(nums[pointer]<nums[pointer-1]){
-        let temp=nums[pointer-1];
-        nums[pointer-1]=nums[pointer];
-        nums[pointer]=temp;
-        snapshot(nums);
-      }
-      else
-        break;
+  const mod = longestNumber - size;
+  return string[place - mod] || 0;
+}
 
-      pointer--;
+function findLongestNumber(array){
+  let longest = 0;
+  for (let i = 0; i < array.length; i++) {
+    const currentLength = array[i].toString().length;
+    longest = currentLength > longest ? currentLength : longest;
+
+  }
+  return longest;
+}
+
+function sort(array) {
+
+  snapshot(array);
+    const longestNumber=findLongestNumber(array);
+
+  const buckets=[[],[],[],[],[],[],[],[],[],[]];
+
+  for(let i = longestNumber - 1; i >= 0 ;i--){
+    while (array.length){
+      const current=array.shift();
+      buckets[getDigit(current,i,longestNumber)].push(current);
+    }
+
+    for(let i=0;i<10;i++){
+    while(buckets[i].length){
+      array.push(buckets[i].shift());
     }
   }
-  // call snapshot any time you do anything to the array
-  // it's okay if you call it with duplicate value array,
-  // it will deduplicate for you
-}
+  snapshot(array);
+  }  
+  return array;
+  }
+ 
 
 export default function SortComponent() {
   clear();
-  sort(shuffle(range(10)));
+  const fill = 99;
+  const nums = new Array(fill)
+    .fill()
+    .map(() => Math.floor(Math.random() * 500000));
+  sort(nums);
   done();
   return <App />;
 }
