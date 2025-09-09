@@ -18,12 +18,43 @@
 */
 
 class ArrayList {
-  // code goes here
+
+  constructor(){
+    this.data={};
+    this.length=0;
+  }
+
+  push(element){
+    this.data[this.length]=element;
+    this.length++;
+  }
+
+  pop(){
+    const answer= this.data[this.length-1];
+    delete this.data[this.length-1];
+    this.length--;
+    return answer;
+  }
+
+  get(index){
+    return this.data[index];
+  }
+
+  delete(index){
+    for(let i=index;i<this.length-1;i++)
+    {
+      let temp = this.data[i];
+      this.data[i]=this.data[i+1];
+      this.data[i+1]=temp;
+    }
+    this.pop();
+  }
+
 }
 
 // unit tests
 // do not modify the below code
-describe.skip("ArrayList", function () {
+describe("ArrayList", function () {
   const range = (length) =>
     Array.apply(null, { length: length }).map(Number.call, Number);
   const abcRange = (length) =>
