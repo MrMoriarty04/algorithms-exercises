@@ -23,6 +23,14 @@
   you work
 */
 
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
+
 class LinkedList {
   constructor() {
     this.head = null;
@@ -79,12 +87,6 @@ class LinkedList {
   }
 }
 
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
 
 // unit tests
 // do not modify the below code
