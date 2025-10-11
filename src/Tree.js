@@ -52,7 +52,7 @@ class Node {
 }
 
 export default function TreeComponent() {
-  const nums = _.shuffle(_.range(16));
+  const nums = _.shuffle(_.range(20));
   const tree = new Tree();
   nums.map((num) => tree.add(num));
   const objs = tree.toObject();
