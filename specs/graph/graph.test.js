@@ -25,13 +25,53 @@
 */
 const { getUser } = require("./jobs");
 
+
+
 const findMostCommonTitle = (myId, degreesOfSeparation) => {
-  // code goes here
+  const jobsMap = new Map();
+  const visited = new Set();
+  let queue=[myId];
+  visited.add(myId);
+ 
+  for (let index=0; index <= degreesOfSeparation; index++) {
+    const nextQueue=[];
+    while(queue.length>0){
+      const currentId= queue.shift();
+      const user = getUser(currentId);
+      if(user && user.title){
+        jobsMap.set(user.title,(jobsMap.get(user.title)??0)+1);
+      }
+
+      if(index<degreesOfSeparation){
+        for(let connectionId of user.connections){
+          if(!visited.has(connectionId)){
+            visited.add(connectionId);
+            nextQueue.push(connectionId);
+          }
+        }
+      }
+    }
+    queue = nextQueue;
+
+  }
+    let maxVal=-1;
+    let maxJob="";
+    for (const [id, count] of jobsMap) {
+      if (count > maxVal) {
+        maxVal = count;
+        maxJob = id;
+      }
+    }
+  return maxJob;
 };
+
+
+
+
 
 // unit tests
 // do not modify the below code
-test.skip("findMostCommonTitle", function () {
+describe("findMostCommonTitle", function () {
   // the getUser function and data comes from this CodePen: https://codepen.io/btholt/pen/NXJGwa?editors=0010
   test("user 30 with 2 degrees of separation", () => {
     expect(findMostCommonTitle(30, 2)).toBe("Librarian");
@@ -48,7 +88,7 @@ test.skip("findMostCommonTitle", function () {
   });
 });
 
-test.skip("extra credit", function () {
+describe("extra credit", function () {
   test("user 1 with 7 degrees of separation – this will traverse every user that's followed by someone else. five users are unfollowed", () => {
     expect(findMostCommonTitle(1, 7)).toBe("Geological Engineer");
   });
