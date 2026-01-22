@@ -17,7 +17,50 @@
 const logMaze = require("./logger");
 
 function findShortestPathLength(maze, [xA, yA], [xB, yB]) {
-  // code goes here
+
+  const startCol = xA;
+  const startRow = yA;
+  const targetCol = xB;
+  const targetRow = yB;
+
+  let queue = [];
+  const visited = new Set();
+
+  queue.push([startRow, startCol, 0]);
+  visited.add(`${startRow},${startCol}`);
+
+  while (queue.length > 0) {
+    let [row, col, dist] = queue.shift();
+
+    if (row === targetRow && col === targetCol) {
+      return dist;
+    }
+
+    const directions = [
+      [0, 1], [0, -1], [1, 0], [-1, 0]
+    ];
+
+    for (let [dr, dc] of directions) {
+      let nextR = row + dr;
+      let nextC = col + dc;
+
+
+      if (nextR >= 0 && nextR < maze.length && nextC >= 0 && nextC < maze[0].length) {
+
+
+        let cellValue = maze[nextR][nextC];
+        let coordString = `${nextR},${nextC}`;
+
+
+        if (cellValue != 1 && !visited.has(coordString)) {
+          visited.add(coordString);
+          queue.push([nextR, nextC, dist + 1]);
+        }
+      }
+    }
+  }
+
+  return -1;
 }
 
 // there is a visualization tool in the completed exercise
@@ -26,7 +69,7 @@ function findShortestPathLength(maze, [xA, yA], [xB, yB]) {
 
 // unit tests
 // do not modify the below code
-describe.skip("pathfinding – happy path", function () {
+describe("pathfinding – happy path", function () {
   const fourByFour = [
     [2, 0, 0, 0],
     [0, 0, 0, 0],
@@ -90,7 +133,7 @@ describe.skip("pathfinding – happy path", function () {
 // I care far less if you solve these
 // nonetheless, if you're having fun, solve some of the edge cases too!
 // just remove the .skip from describe.skip
-describe.skip("pathfinding – edge cases", function () {
+describe("pathfinding – edge cases", function () {
   const byEachOther = [
     [0, 0, 0, 0, 0],
     [0, 2, 2, 0, 0],
